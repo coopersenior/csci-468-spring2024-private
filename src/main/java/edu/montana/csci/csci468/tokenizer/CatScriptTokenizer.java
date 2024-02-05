@@ -75,8 +75,6 @@ public class CatScriptTokenizer {
     }
 
     private void scanSyntax() {
-        // TODO - implement rest of syntax scanning
-        //      - implement comments
         int start = position;
         if(matchAndConsume('+')) {
             tokenList.addToken(PLUS, "+", start, position, line, lineOffset);
@@ -165,9 +163,12 @@ public class CatScriptTokenizer {
             char c = peek();
             if (c == ' ' || c == '\r' || c == '\t') {
                 position++;
+                lineOffset++;
                 continue;
             } else if (c == '\n') {
                 position++;
+                line++;
+                lineOffset = 0;
                 continue;
             }
             break;
@@ -200,6 +201,7 @@ public class CatScriptTokenizer {
     private char takeChar() {
         char c = src.charAt(position);
         position++;
+        lineOffset++;
         return c;
     }
 

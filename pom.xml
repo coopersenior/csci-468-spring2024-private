@@ -1,6 +1,6 @@
 <project>
     <groupId>cs.msu.edu</groupId>
-    <artifactId>csci-468-spring2022</artifactId>
+    <artifactId>csci-468-spring2024-private</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
