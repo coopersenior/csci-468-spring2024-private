@@ -25,7 +25,7 @@
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
 [INFO] Running edu.montana.csci.csci468.parser.CatscriptParserExpressionsTest
-[INFO] Tests run: 29, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.038 s - in edu.montana.csci.csci468.parser.CatscriptParserExpressionsTest
+[INFO] Tests run: 29, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 s - in edu.montana.csci.csci468.parser.CatscriptParserExpressionsTest
 [INFO] 
 [INFO] Results:
 [INFO] 
@@ -35,5 +35,5 @@
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
 [INFO] Total time:  1.239 s
-[INFO] Finished at: 2024-03-08T07:50:32-07:00
+[INFO] Finished at: 2024-03-08T10:35:24-07:00
 [INFO] ------------------------------------------------------------------------
