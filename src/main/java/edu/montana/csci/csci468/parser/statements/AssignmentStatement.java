@@ -7,6 +7,7 @@ import edu.montana.csci.csci468.parser.ErrorType;
 import edu.montana.csci.csci468.parser.ParseError;
 import edu.montana.csci.csci468.parser.SymbolTable;
 import edu.montana.csci.csci468.parser.expressions.Expression;
+import edu.montana.csci.csci468.parser.expressions.IntegerLiteralExpression;
 
 public class AssignmentStatement extends Statement {
     private Expression expression;
@@ -34,8 +35,11 @@ public class AssignmentStatement extends Statement {
         CatscriptType symbolType = symbolTable.getSymbolType(getVariableName());
         if (symbolType == null) {
             addError(ErrorType.UNKNOWN_NAME);
-        } else {
+        } else if (symbolType.toString().equals("int") && !expression.equals("IntegerLiteralExpression")) {
+            addError(ErrorType.INCOMPATIBLE_TYPES);
             // TOOD - verify compatilibity of types
+        } else if (symbolType.toString().equals("bool") && !expression.equals("BooleanLiteralExpression")) {
+            addError(ErrorType.INCOMPATIBLE_TYPES);
         }
     }
 

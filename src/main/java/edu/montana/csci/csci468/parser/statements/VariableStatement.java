@@ -53,6 +53,16 @@ public class VariableStatement extends Statement {
 
             // var x : int = 10
             // var x = 10
+            try {
+                Integer.parseInt(expression.toString());
+                if (!explicitType.equals(CatscriptType.INT)) {
+                    addError(ErrorType.INCOMPATIBLE_TYPES);
+                    explicitType = CatscriptType.INT;
+                }
+            }
+            catch(Exception e) {
+                // do nothing
+            }
 
             if (explicitType != null) {
                 type = explicitType;

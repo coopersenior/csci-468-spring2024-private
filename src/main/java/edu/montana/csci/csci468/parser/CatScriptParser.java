@@ -279,7 +279,7 @@ public class CatScriptParser {
             Token keyword = tokens.consumeToken();
             ReturnStatement returnStatement = new ReturnStatement();
             returnStatement.setFunctionDefinition(currentFunctionDefinition);
-            return null;
+            return returnStatement;
         } else {
             return null;
         }
