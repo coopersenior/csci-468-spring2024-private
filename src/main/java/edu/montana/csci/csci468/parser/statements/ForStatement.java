@@ -68,11 +68,21 @@ public class ForStatement extends Statement {
         return ((CatscriptType.ListType) expression.getType()).getComponentType();
     }
 
+    // for (x in [1 2 3]) {print(x) }
     //==============================================================
     // Implementation
     //==============================================================
     @Override
     public void execute(CatscriptRuntime runtime) {
+        List evalute = (List) expression.evaluate(runtime);
+        for (Object o : evalute) {
+            runtime.pushScope();
+            //runtime.setValue(...);
+            for (Statement statement  : body) {
+                //statement.execute();
+            }
+            runtime.popScope();
+        }
         super.execute(runtime);
     }
 

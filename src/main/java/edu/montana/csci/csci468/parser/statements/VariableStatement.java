@@ -50,6 +50,15 @@ public class VariableStatement extends Statement {
         } else {
             // TODO if there is an explicit type, ensure it is correct
             //      if not, infer the type from the right hand side expression
+
+            // var x : int = 10
+            // var x = 10
+
+            if (explicitType != null) {
+                type = explicitType;
+            } else {
+                type = expression.getType();
+            }
             symbolTable.registerSymbol(variableName, type);
         }
     }
@@ -63,6 +72,7 @@ public class VariableStatement extends Statement {
     //==============================================================
     @Override
     public void execute(CatscriptRuntime runtime) {
+        //runtime.setValue();
         super.execute(runtime);
     }
 
