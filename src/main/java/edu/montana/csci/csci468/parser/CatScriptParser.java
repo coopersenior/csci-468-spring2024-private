@@ -95,13 +95,16 @@ public class CatScriptParser {
                 funcDef.setType(typeLiteral);
                 tokens.consumeToken();
             } else {
-                funcDef.setType(null);
+                TypeLiteral typeLiteral = new TypeLiteral();
+                typeLiteral.setType(CatscriptType.VOID);
+                funcDef.setType(typeLiteral);
             }
 
             require(LEFT_BRACE, funcDef);
+            currentFunctionDefinition = funcDef;
             List<Statement> stms = new ArrayList<>();
             while(tokens.hasMoreTokens() && !tokens.match(RIGHT_BRACE)) {
-                Statement stmt = parseStatement();
+                Statement stmt = parseFunctionStatement();
                 stms.add(stmt);
             }
             require(RIGHT_BRACE, funcDef);
@@ -254,8 +257,13 @@ public class CatScriptParser {
     }
 
     private Statement parseFunctionStatement() {
-        return null;
+        Statement parseReturnStatement = parseReturnStatement();
+        if (parseReturnStatement != null){
+            return parseReturnStatement;
+        }
+        return parseStatement();
     }
+
     private Statement parseAssignmentOrFunctionCallStatement() {
         if (tokens.match(IDENTIFIER)) {
             Token identifier = tokens.consumeToken();
@@ -278,6 +286,12 @@ public class CatScriptParser {
         if (tokens.match(RETURN)) {
             Token keyword = tokens.consumeToken();
             ReturnStatement returnStatement = new ReturnStatement();
+            if (!tokens.getCurrentToken().getType().equals(RIGHT_BRACE)) {
+                Expression expression = parseExpression();
+                if (!expression.hasErrors()) {
+                    returnStatement.setExpression(expression);
+                }
+            }
             returnStatement.setFunctionDefinition(currentFunctionDefinition);
             return returnStatement;
         } else {
