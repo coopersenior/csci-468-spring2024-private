@@ -72,7 +72,6 @@ public class CatScriptParser {
             Token funcName = require(IDENTIFIER, funcDef);
             funcDef.setName(funcName.getStringValue());
 
-            // deal with parameter list first
             require(LEFT_PAREN, funcDef);
             while (!tokens.match(RIGHT_PAREN)) {
                 tokens.matchAndConsume(COMMA);
@@ -88,7 +87,7 @@ public class CatScriptParser {
             }
             require(RIGHT_PAREN, funcDef);
 
-            if (tokens.matchAndConsume(COLON)) {  // something like this
+            if (tokens.matchAndConsume(COLON)) {
                 TypeLiteral typeLiteral = new TypeLiteral();
                 CatscriptType ct = parseCatscriptTypeLiteral();
                 typeLiteral.setType(ct);
@@ -237,21 +236,21 @@ public class CatScriptParser {
     }
 
     private CatscriptType parseCatscriptTypeLiteral() {
-        // may need to be changed to add in '<' , type_expression, '>'
         Token token = tokens.getCurrentToken();
         String type = token.getStringValue();
-        if (type.equals("int")) {
-            return CatscriptType.INT;
-        } else if (type.equals("string")) {
-            return CatscriptType.STRING;
-        } else if (type.equals("bool")) {
-            return CatscriptType.BOOLEAN;
-        } else if (type.equals("null")) {
-            return CatscriptType.NULL;
-        } else if (type.equals("list")) {
-            return CatscriptType.VOID;
-        } else if (type.equals("object")) {
-            return CatscriptType.OBJECT;
+        switch (type) {
+            case "int":
+                return CatscriptType.INT;
+            case "string":
+                return CatscriptType.STRING;
+            case "bool":
+                return CatscriptType.BOOLEAN;
+            case "null":
+                return CatscriptType.NULL;
+            case "list":
+                return CatscriptType.VOID;
+            case "object":
+                return CatscriptType.OBJECT;
         }
         return null;
     }
@@ -434,8 +433,7 @@ public class CatScriptParser {
             parenExp.setEnd(require(RIGHT_PAREN, parenExp, ErrorType.UNTERMINATED_ARG_LIST));
             return parenExp;
         } else{
-            SyntaxErrorExpression syntaxErrorExpression = new SyntaxErrorExpression(tokens.consumeToken());
-            return syntaxErrorExpression;
+            return new SyntaxErrorExpression(tokens.consumeToken());
         }
     }
 
