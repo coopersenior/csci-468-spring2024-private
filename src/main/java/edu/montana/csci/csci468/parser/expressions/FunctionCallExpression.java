@@ -68,9 +68,12 @@ public class FunctionCallExpression extends Expression {
     public Object evaluate(CatscriptRuntime runtime) {
         // evaluate all our arguments to build up a list of parameters
         // to pass to the function
+        for (Expression argument : arguments) {
+            // put the values of the expressions in a list
+        }
 
         FunctionDefinitionStatement function = getProgram().getFunction(name);
-        //Object invoke = function.invoke()
+        //Object invoke = function.invoke(runtime, list of args)
 
         return super.evaluate(runtime);
     }

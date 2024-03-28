@@ -75,11 +75,11 @@ public class ForStatement extends Statement {
     @Override
     public void execute(CatscriptRuntime runtime) {
         List evalute = (List) expression.evaluate(runtime);
-        for (Object o : evalute) {
+        for (Object obj : evalute) {
             runtime.pushScope();
-            //runtime.setValue(...);
+            runtime.setValue(variableName, obj);
             for (Statement statement  : body) {
-                //statement.execute();
+                statement.execute(runtime);
             }
             runtime.popScope();
         }

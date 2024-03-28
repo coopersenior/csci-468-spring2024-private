@@ -47,7 +47,7 @@ public class ReturnStatement extends Statement {
     @Override
     public void execute(CatscriptRuntime runtime) {
 
-        //throw new ReturnException(expression.evaluate(runtime));  // null checking
+        //throw new ReturnException(expression.evaluate(runtime));  // null checking on expression
         super.execute(runtime);
     }
 
