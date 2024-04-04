@@ -80,19 +80,31 @@ public class CatScriptParser {
                 Token item = tokens.consumeToken();
                 if (tokens.matchAndConsume(COLON)) {
                     CatscriptType ct = parseCatscriptTypeLiteral();
-                    typeLiteral.setType(ct);
                     tokens.consumeToken();
+                    if (tokens.matchAndConsume(LESS)) {
+                        ct = parseCatscriptTypeLiteral();
+                        ct = CatscriptType.getListType(ct);
+                        tokens.consumeToken();
+                        require(GREATER, funcDef); // should consume remaining '>'
+                    }
+                    typeLiteral.setType(ct);
                 }
                 funcDef.addParameter(item.getStringValue(), typeLiteral);
             }
             require(RIGHT_PAREN, funcDef);
-
-            if (tokens.matchAndConsume(COLON)) {
+            if (tokens.matchAndConsume(COLON)) {  // at :
                 TypeLiteral typeLiteral = new TypeLiteral();
                 CatscriptType ct = parseCatscriptTypeLiteral();
+                tokens.consumeToken();
+                if (tokens.matchAndConsume(LESS)) {
+                    ct = parseCatscriptTypeLiteral();
+                    ct = CatscriptType.getListType(ct);
+                    tokens.consumeToken();
+                    require(GREATER, funcDef); // should consume remaining '>'
+                }
                 typeLiteral.setType(ct);
                 funcDef.setType(typeLiteral);
-                tokens.consumeToken();
+
             } else {
                 TypeLiteral typeLiteral = new TypeLiteral();
                 typeLiteral.setType(CatscriptType.VOID);

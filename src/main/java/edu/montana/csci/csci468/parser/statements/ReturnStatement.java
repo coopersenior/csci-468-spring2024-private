@@ -46,8 +46,10 @@ public class ReturnStatement extends Statement {
 
     @Override
     public void execute(CatscriptRuntime runtime) {
-
-        //throw new ReturnException(expression.evaluate(runtime));  // null checking on expression
+        if (expression != null) {
+            Object returnValue = expression.evaluate(runtime);
+            throw new ReturnException(returnValue);
+        }
         super.execute(runtime);
     }
 
