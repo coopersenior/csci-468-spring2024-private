@@ -7,6 +7,9 @@ import edu.montana.csci.csci468.parser.ErrorType;
 import edu.montana.csci.csci468.parser.ParseError;
 import edu.montana.csci.csci468.parser.SymbolTable;
 import edu.montana.csci.csci468.parser.expressions.Expression;
+import org.objectweb.asm.Opcodes;
+
+import static edu.montana.csci.csci468.bytecode.ByteCodeGenerator.internalNameFor;
 
 public class VariableStatement extends Statement {
     private Expression expression;
@@ -93,6 +96,43 @@ public class VariableStatement extends Statement {
 
     @Override
     public void compile(ByteCodeGenerator code) {
-        super.compile(code);
+        if (isGlobal()) {
+            System.out.println("global");
+            if (getType().equals(CatscriptType.INT) || getType().equals(CatscriptType.BOOLEAN)) {
+                code.addField(variableName, "I"); // descriptor based on type of fieldf
+            } else {
+                System.out.println(internalNameFor(getType().getClass()));
+                code.addField(variableName, "Ljava/lang/Object;"); // descriptor based on type of field
+            }
+            // push the 'this' pointer
+            code.addVarInstruction(Opcodes.ALOAD, 0);
+            // Compile the expression
+            expression.compile(code);
+            // save the expression result to the field
+            //code.addFieldInstruction(Opcodes.PUTFIELD, variableName, "Ljava/lang/Object;", code.getProgramInternalName());
+
+//            System.out.println(internalNameFor(getType().getClass()));
+//            System.out.println(getType());
+//            System.out.println(expression.getType());
+//            System.out.println(code.getProgramInternalName());
+            if (getType().equals(CatscriptType.INT) || getType().equals(CatscriptType.BOOLEAN)) {
+                //box(code, getType());
+                code.addFieldInstruction(Opcodes.PUTFIELD, variableName, "I", code.getProgramInternalName());
+            } else {
+                code.addFieldInstruction(Opcodes.PUTFIELD, variableName, "Ljava/lang/Object;", code.getProgramInternalName()); // maybe internalNameFor(getType().getClass()) for descriptor
+            }
+        } else {
+            System.out.println("local");
+            // Local variable
+            Integer slot = code.createLocalStorageSlotFor(variableName);
+            // Compile the expression
+            expression.compile(code);
+            // Store the expression result to the local variable slot
+            if (expression.getType().equals(CatscriptType.INT) || expression.getType().equals(CatscriptType.BOOLEAN)) {
+                code.addVarInstruction(Opcodes.ISTORE, slot); // ISTORE for int/boolean
+            } else {
+                code.addVarInstruction(Opcodes.ASTORE, slot); // ASTORE for reference types
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@ import edu.montana.csci.csci468.parser.ErrorType;
 import edu.montana.csci.csci468.parser.ParseError;
 import edu.montana.csci.csci468.parser.SymbolTable;
 import edu.montana.csci.csci468.parser.expressions.Expression;
+import org.objectweb.asm.Opcodes;
 
 public class ReturnStatement extends Statement {
     private Expression expression;
@@ -60,7 +61,29 @@ public class ReturnStatement extends Statement {
 
     @Override
     public void compile(ByteCodeGenerator code) {
-        super.compile(code);
+        System.out.println("returnStatement");
+        if (expression != null) {
+            // if return type is object
+            //      and type is primitive (int or boolean) need to box
+            // if its int or boolean use IRETURN
+            // else use ARETURN
+            // If return type is object and type is primitive (int or boolean), box the value
+            //code.addVarInstruction(Opcodes.ALOAD, 0);
+
+            if (expression.getType().equals(CatscriptType.BOOLEAN) || expression.getType().equals(CatscriptType.INT)) {
+                // Box the value
+                box(code, expression.getType());
+            }
+            //expression.compile(code);
+            // Use IRETURN if the expression type is INT or BOOLEAN, otherwise use ARETURN
+            if (expression.getType().equals(CatscriptType.BOOLEAN) || expression.getType().equals(CatscriptType.INT)) {
+                code.addInstruction(Opcodes.IRETURN);
+            } else {
+                code.addInstruction(Opcodes.ARETURN);
+            }
+        } else {
+            code.addInstruction(Opcodes.RETURN);
+        }
     }
 
 }

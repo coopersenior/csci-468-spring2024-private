@@ -8,10 +8,14 @@ import edu.montana.csci.csci468.parser.ParseError;
 import edu.montana.csci.csci468.parser.SymbolTable;
 import edu.montana.csci.csci468.parser.statements.CatScriptProgram;
 import edu.montana.csci.csci468.parser.statements.FunctionDefinitionStatement;
+import edu.montana.csci.csci468.parser.statements.Statement;
+import org.objectweb.asm.Opcodes;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import static edu.montana.csci.csci468.bytecode.ByteCodeGenerator.internalNameFor;
 
 public class FunctionCallExpression extends Expression {
     private final String name;
@@ -89,8 +93,39 @@ public class FunctionCallExpression extends Expression {
 
     @Override
     public void compile(ByteCodeGenerator code) {
-        super.compile(code);
+        System.out.println("funcCallEx");
+        code.addVarInstruction(Opcodes.ALOAD, 0);
+
+        // Compile parameter expressions and box if needed
+        for (Expression expression : arguments) {
+            if (expression.getType().equals(CatscriptType.OBJECT)) {
+                box(code, expression.getType());
+            }
+            expression.compile(code);
+        }
+        // Invoke the function
+        code.addMethodInstruction(Opcodes.INVOKEVIRTUAL,
+                code.getProgramInternalName(), name, getProgram().getFunction(name).getDescriptor());
     }
+//    code.addVarInstruction(Opcodes.ALOAD, 0);
+//
+//    // Compile parameter expressions and box if needed
+//        for (Expression expression : arguments) {
+//        expression.compile(code);
+//        if (expression.getType().equals(CatscriptType.OBJECT)) {
+//            box(code, expression.getType());
+//        }
+//    }
+//
+//    // Invoke the function (assuming it returns an integer)
+//        code.addMethodInstruction(Opcodes.INVOKEVIRTUAL,
+//            code.getProgramInternalName(), "print", "(Ljava/lang/Integer;)Z");
+//
+//    // Check if the function returns an integer before conversion and printing
+//        if (getProgram().getFunction(name).getType().equals(CatscriptType.INT)) {
+//        // Print the return value directly (no conversion needed)
+//        code.addMethodInstruction(Opcodes.INVOKEVIRTUAL, code.getProgramInternalName(), "print", "(Ljava/lang/Object;)V");
+//    }
 
 
 }

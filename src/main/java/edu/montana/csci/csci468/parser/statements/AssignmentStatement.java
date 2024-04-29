@@ -8,6 +8,7 @@ import edu.montana.csci.csci468.parser.ParseError;
 import edu.montana.csci.csci468.parser.SymbolTable;
 import edu.montana.csci.csci468.parser.expressions.Expression;
 import edu.montana.csci.csci468.parser.expressions.IntegerLiteralExpression;
+import org.objectweb.asm.Opcodes;
 
 public class AssignmentStatement extends Statement {
     private Expression expression;
@@ -58,6 +59,12 @@ public class AssignmentStatement extends Statement {
 
     @Override
     public void compile(ByteCodeGenerator code) {
-        super.compile(code);
+        expression.compile(code);
+        // Store the expression result to the variable
+        if (expression.getType().equals(CatscriptType.INT) || expression.getType().equals(CatscriptType.BOOLEAN)) {
+            code.addVarInstruction(Opcodes.ISTORE, code.createLocalStorageSlotFor(variableName)); // ISTORE for int/boolean
+        } else {
+            code.addVarInstruction(Opcodes.ASTORE, code.createLocalStorageSlotFor(variableName)); // ASTORE for reference types
+        }
     }
 }
