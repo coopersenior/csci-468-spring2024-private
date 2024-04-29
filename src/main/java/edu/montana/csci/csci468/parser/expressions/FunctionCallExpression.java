@@ -99,14 +99,11 @@ public class FunctionCallExpression extends Expression {
         // Compile parameter expressions and box if needed
         for (Expression expression : arguments) {
             expression.compile(code);
-            if (expression.getType().equals(CatscriptType.OBJECT)) {
-                if (expression.getType().equals(CatscriptType.INT) || expression.getType().equals(CatscriptType.BOOLEAN)) {
-                    box(code, expression.getType());
-                }
+            if (expression.getType().equals(CatscriptType.INT) || expression.getType().equals(CatscriptType.BOOLEAN)) {
+                box(code, expression.getType());
             }
-
         }
-        // Invoke the function
+
         code.addMethodInstruction(Opcodes.INVOKEVIRTUAL,
                 code.getProgramInternalName(), name, getProgram().getFunction(name).getDescriptor());
     }

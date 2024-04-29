@@ -69,12 +69,11 @@ public class ReturnStatement extends Statement {
             // else use ARETURN
             // If return type is object and type is primitive (int or boolean), box the value
             //code.addVarInstruction(Opcodes.ALOAD, 0);
-
+            expression.compile(code);
+            // If the return type is boolean or integer, box the value
             if (expression.getType().equals(CatscriptType.BOOLEAN) || expression.getType().equals(CatscriptType.INT)) {
-                // Box the value
                 box(code, expression.getType());
             }
-            expression.compile(code);
             // Use IRETURN if the expression type is INT or BOOLEAN, otherwise use ARETURN
             if (expression.getType().equals(CatscriptType.BOOLEAN) || expression.getType().equals(CatscriptType.INT)) {
                 code.addInstruction(Opcodes.IRETURN);

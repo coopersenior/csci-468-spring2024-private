@@ -57,6 +57,10 @@ public class IdentifierExpression extends Expression {
         Integer i = code.resolveLocalStorageSlotFor(name);
         if (i != null) {
             // Local variable exists, load its value
+            System.out.println("IE "+ getType());
+            if (getType().equals(CatscriptType.OBJECT)) {
+                box(code, getType());
+            }
             if (getType().equals(CatscriptType.INT) || getType().equals(CatscriptType.BOOLEAN)) {
                 code.addVarInstruction(Opcodes.ILOAD, i);
             } else {
