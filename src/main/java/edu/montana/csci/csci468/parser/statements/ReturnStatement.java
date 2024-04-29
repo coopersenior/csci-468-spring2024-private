@@ -74,7 +74,7 @@ public class ReturnStatement extends Statement {
                 // Box the value
                 box(code, expression.getType());
             }
-            //expression.compile(code);
+            expression.compile(code);
             // Use IRETURN if the expression type is INT or BOOLEAN, otherwise use ARETURN
             if (expression.getType().equals(CatscriptType.BOOLEAN) || expression.getType().equals(CatscriptType.INT)) {
                 code.addInstruction(Opcodes.IRETURN);
