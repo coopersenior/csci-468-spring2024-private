@@ -23,7 +23,6 @@ public class NullLiteralExpression extends Expression {
     @Override
     public Object evaluate(CatscriptRuntime runtime) {
         return null;
-        //return super.evaluate(runtime);
     }
 
     @Override

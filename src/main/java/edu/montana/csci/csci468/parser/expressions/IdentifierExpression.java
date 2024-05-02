@@ -53,14 +53,9 @@ public class IdentifierExpression extends Expression {
 
     @Override
     public void compile(ByteCodeGenerator code) {
-        System.out.println("IdentifierExpression");
         Integer i = code.resolveLocalStorageSlotFor(name);
         if (i != null) {
             // Local variable exists, load its value
-            System.out.println("IE "+ getType());
-            if (getType().equals(CatscriptType.OBJECT)) {
-                box(code, getType());
-            }
             if (getType().equals(CatscriptType.INT) || getType().equals(CatscriptType.BOOLEAN)) {
                 code.addVarInstruction(Opcodes.ILOAD, i);
             } else {
@@ -68,7 +63,6 @@ public class IdentifierExpression extends Expression {
             }
         } else {
             code.addVarInstruction(Opcodes.ALOAD, 0);
-
             // No local variable, assume it's a field
             if (getType().equals(CatscriptType.INT) || getType().equals(CatscriptType.BOOLEAN)) {
                 if (getType().equals(CatscriptType.NULL)) {
@@ -85,6 +79,4 @@ public class IdentifierExpression extends Expression {
             }
         }
     }
-
-
 }

@@ -109,7 +109,7 @@ public class FunctionDefinitionStatement extends Statement {
         for (int i = 0; i < parameterCount; i++) {
             runtime.setValue(getParameterName(i), args.get(i));
         }
-        Object returnVal = null;
+        Object returnVal = CatscriptType.VOID;
         try {
             for (Statement statement : body) {
                 statement.execute(runtime);
@@ -156,10 +156,8 @@ public class FunctionDefinitionStatement extends Statement {
 
     @Override
     public void compile(ByteCodeGenerator code) {
-        System.out.println("functionDefStatement");
         code.pushMethod(Opcodes.ACC_PUBLIC, name, getDescriptor());
         // iterate over parameters and assign slots to each
-        box(code, getType());
         for (String argumentName : argumentNames) {
             code.createLocalStorageSlotFor(argumentName);
         }

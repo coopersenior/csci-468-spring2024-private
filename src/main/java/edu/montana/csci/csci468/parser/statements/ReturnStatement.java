@@ -61,20 +61,17 @@ public class ReturnStatement extends Statement {
 
     @Override
     public void compile(ByteCodeGenerator code) {
-        System.out.println("returnStatement");
         if (expression != null) {
             // if return type is object
             //      and type is primitive (int or boolean) need to box
+            expression.compile(code);
+            if (function.getType().equals(CatscriptType.OBJECT)) {
+                if (expression.getType().equals(CatscriptType.BOOLEAN) || expression.getType().equals(CatscriptType.INT)) {
+                    box(code, expression.getType());
+                }
+            }
             // if its int or boolean use IRETURN
             // else use ARETURN
-            // If return type is object and type is primitive (int or boolean), box the value
-            //code.addVarInstruction(Opcodes.ALOAD, 0);
-            expression.compile(code);
-            // If the return type is boolean or integer, box the value
-            if (expression.getType().equals(CatscriptType.BOOLEAN) || expression.getType().equals(CatscriptType.INT)) {
-                box(code, expression.getType());
-            }
-            // Use IRETURN if the expression type is INT or BOOLEAN, otherwise use ARETURN
             if (expression.getType().equals(CatscriptType.BOOLEAN) || expression.getType().equals(CatscriptType.INT)) {
                 code.addInstruction(Opcodes.IRETURN);
             } else {

@@ -93,13 +93,12 @@ public class FunctionCallExpression extends Expression {
 
     @Override
     public void compile(ByteCodeGenerator code) {
-        System.out.println("funcCallEx");
         code.addVarInstruction(Opcodes.ALOAD, 0);
 
         // Compile parameter expressions and box if needed
         for (Expression expression : arguments) {
             expression.compile(code);
-            if (expression.getType().equals(CatscriptType.INT) || expression.getType().equals(CatscriptType.BOOLEAN)) {
+            if (expression.getType().equals(CatscriptType.OBJECT) || expression.getType().equals(CatscriptType.INT)) {
                 box(code, expression.getType());
             }
         }
@@ -107,25 +106,4 @@ public class FunctionCallExpression extends Expression {
         code.addMethodInstruction(Opcodes.INVOKEVIRTUAL,
                 code.getProgramInternalName(), name, getProgram().getFunction(name).getDescriptor());
     }
-//    code.addVarInstruction(Opcodes.ALOAD, 0);
-//
-//    // Compile parameter expressions and box if needed
-//        for (Expression expression : arguments) {
-//        expression.compile(code);
-//        if (expression.getType().equals(CatscriptType.OBJECT)) {
-//            box(code, expression.getType());
-//        }
-//    }
-//
-//    // Invoke the function (assuming it returns an integer)
-//        code.addMethodInstruction(Opcodes.INVOKEVIRTUAL,
-//            code.getProgramInternalName(), "print", "(Ljava/lang/Integer;)Z");
-//
-//    // Check if the function returns an integer before conversion and printing
-//        if (getProgram().getFunction(name).getType().equals(CatscriptType.INT)) {
-//        // Print the return value directly (no conversion needed)
-//        code.addMethodInstruction(Opcodes.INVOKEVIRTUAL, code.getProgramInternalName(), "print", "(Ljava/lang/Object;)V");
-//    }
-
-
 }
