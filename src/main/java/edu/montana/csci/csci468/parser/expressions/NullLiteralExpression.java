@@ -32,7 +32,7 @@ public class NullLiteralExpression extends Expression {
 
     @Override
     public void compile(ByteCodeGenerator code) {
-        code.addInstruction(Opcodes.ACONST_NULL);
+        code.pushConstantOntoStack(null);
     }
 
 

@@ -66,13 +66,12 @@ public class ReturnStatement extends Statement {
             //      and type is primitive (int or boolean) need to box
             expression.compile(code);
             if (function.getType().equals(CatscriptType.OBJECT)) {
-                if (expression.getType().equals(CatscriptType.BOOLEAN) || expression.getType().equals(CatscriptType.INT)) {
-                    box(code, expression.getType());
-                }
+                box(code, function.getType());
+                box(code, expression.getType());
             }
-            // if its int or boolean use IRETURN
-            // else use ARETURN
-            if (expression.getType().equals(CatscriptType.BOOLEAN) || expression.getType().equals(CatscriptType.INT)) {
+            if (function.getType().equals(CatscriptType.OBJECT)) {
+                code.addInstruction(Opcodes.ARETURN);
+            } else if (expression.getType().equals(CatscriptType.BOOLEAN) || expression.getType().equals(CatscriptType.INT)) {
                 code.addInstruction(Opcodes.IRETURN);
             } else {
                 code.addInstruction(Opcodes.ARETURN);

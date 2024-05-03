@@ -260,7 +260,6 @@ public class CatScriptParser {
             case "null":
                 return CatscriptType.NULL;
             case "list":
-                return CatscriptType.VOID;
             case "object":
                 return CatscriptType.OBJECT;
         }

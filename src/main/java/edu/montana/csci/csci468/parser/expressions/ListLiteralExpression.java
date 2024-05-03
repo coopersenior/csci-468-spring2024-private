@@ -81,6 +81,4 @@ public class ListLiteralExpression extends Expression {
             code.addInstruction(Opcodes.POP);
         }
     }
-
-
 }

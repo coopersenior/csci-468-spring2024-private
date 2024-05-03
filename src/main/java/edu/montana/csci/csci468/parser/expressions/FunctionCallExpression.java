@@ -94,11 +94,16 @@ public class FunctionCallExpression extends Expression {
     @Override
     public void compile(ByteCodeGenerator code) {
         code.addVarInstruction(Opcodes.ALOAD, 0);
+        CatScriptProgram program = getProgram();
+
+        FunctionDefinitionStatement function = program.getFunction(name);
 
         // Compile parameter expressions and box if needed
-        for (Expression expression : arguments) {
+        for (int i = 0; i < arguments.size(); i++) {
+            Expression expression = arguments.get(i);
             expression.compile(code);
-            if (expression.getType().equals(CatscriptType.OBJECT) || expression.getType().equals(CatscriptType.INT)) {
+            CatscriptType parameterType = function.getParameterType(i);
+            if (parameterType.equals(CatscriptType.OBJECT)) {
                 box(code, expression.getType());
             }
         }
