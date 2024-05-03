@@ -623,8 +623,8 @@ public class edu/montana/csci/csci466/bytecode/CatScriptProgram17 extends edu/mo
 
 
  ================================================
-[ERROR] Tests run: 9, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.063 s <<< FAILURE! - in edu.montana.csci.csci468.bytecode.CatscriptStatementExecutionTest
-[ERROR] recursiveFunctionWorksProperly  Time elapsed: 0.04 s  <<< ERROR!
+[ERROR] Tests run: 9, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.069 s <<< FAILURE! - in edu.montana.csci.csci468.bytecode.CatscriptStatementExecutionTest
+[ERROR] recursiveFunctionWorksProperly  Time elapsed: 0.046 s  <<< ERROR!
 java.lang.IllegalArgumentException: 
 Error at instruction 3: Argument 1: expected I, but found R execute()V
 00000 R  :  :     ALOAD 0
@@ -640,7 +640,7 @@ Caused by: org.objectweb.asm.tree.analysis.AnalyzerException: Error at instructi
 Caused by: org.objectweb.asm.tree.analysis.AnalyzerException: Argument 1: expected I, but found R
 	at edu.montana.csci.csci468.bytecode.CatscriptStatementExecutionTest.recursiveFunctionWorksProperly(CatscriptStatementExecutionTest.java:72)
 
-[ERROR] returnStatementWorks  Time elapsed: 0.002 s  <<< ERROR!
+[ERROR] returnStatementWorks  Time elapsed: 0.001 s  <<< ERROR!
 java.lang.IllegalArgumentException: 
 Error at instruction 4: Argument 1: expected I, but found R execute()V
 00000 R  :  :     ALOAD 0
@@ -1846,7 +1846,7 @@ public class edu/montana/csci/csci466/bytecode/CatScriptProgram52 extends edu/mo
 
 
  ================================================
-[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s - in edu.montana.csci.csci468.bytecode.CatscriptBasicExpressionCompileTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s - in edu.montana.csci.csci468.bytecode.CatscriptBasicExpressionCompileTest
 [INFO] Running edu.montana.csci.csci468.bytecode.CatscriptFunctionArgsAndReturnCompileTest
  JVM Bytecode ===================================
 
@@ -2454,7 +2454,7 @@ public class edu/montana/csci/csci466/bytecode/CatScriptProgram69 extends edu/mo
 
 
  ================================================
-[ERROR] Tests run: 15, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.02 s <<< FAILURE! - in edu.montana.csci.csci468.bytecode.CatscriptFunctionArgsAndReturnCompileTest
+[ERROR] Tests run: 15, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.021 s <<< FAILURE! - in edu.montana.csci.csci468.bytecode.CatscriptFunctionArgsAndReturnCompileTest
 [ERROR] returnObjectWorksProperly  Time elapsed: 0.001 s  <<< ERROR!
 java.lang.IllegalArgumentException: 
 Error at instruction 2: Expected I, but found R foo()Ljava/lang/Object;
@@ -2485,7 +2485,7 @@ Caused by: org.objectweb.asm.tree.analysis.AnalyzerException: Error at instructi
 Caused by: java.lang.IndexOutOfBoundsException: Cannot pop operand off an empty stack.
 	at edu.montana.csci.csci468.bytecode.CatscriptFunctionArgsAndReturnCompileTest.returnListWorksProperly(CatscriptFunctionArgsAndReturnCompileTest.java:94)
 
-[ERROR] intTypeArgWorksProperly  Time elapsed: 0 s  <<< ERROR!
+[ERROR] intTypeArgWorksProperly  Time elapsed: 0.002 s  <<< ERROR!
 java.lang.IllegalArgumentException: 
 Error at instruction 3: Argument 1: expected I, but found R execute()V
 00000 R  :  :     ALOAD 0
@@ -2516,8 +2516,8 @@ Caused by: org.objectweb.asm.tree.analysis.AnalyzerException: Argument 1: expect
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD FAILURE
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  1.374 s
-[INFO] Finished at: 2024-05-03T11:36:14-06:00
+[INFO] Total time:  1.447 s
+[INFO] Finished at: 2024-05-03T13:43:49-06:00
 [INFO] ------------------------------------------------------------------------
 [ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.22.1:test (default-test) on project csci-468-spring2024-private: There are test failures.
 [ERROR] 
