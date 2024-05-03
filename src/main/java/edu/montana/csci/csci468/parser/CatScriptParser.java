@@ -225,13 +225,17 @@ public class CatScriptParser {
             variableStatement.setVariableName(token.getStringValue());
             if (tokens.matchAndConsume(COLON)) {
                 CatscriptType type = parseCatscriptTypeLiteral();
-                if (type.equals(CatscriptType.VOID)) {  // void means list
+                if (type.equals(CatscriptType.OBJECT)) {  // void means list
                     tokens.consumeToken(); // consume list
-                    require(LESS, variableStatement);
-                    type = parseCatscriptTypeLiteral();
-                    tokens.consumeToken();
-                    require(GREATER, variableStatement);
-                    variableStatement.setExplicitType(CatscriptType.getListType(type));
+                    if (tokens.match(LESS)) {
+                        require(LESS, variableStatement);
+                        type = parseCatscriptTypeLiteral();
+                        tokens.consumeToken();
+                        require(GREATER, variableStatement);
+                        variableStatement.setExplicitType(CatscriptType.getListType(type));
+                    } else {
+                        variableStatement.setExplicitType(type);
+                    }
                 } else {
                     variableStatement.setExplicitType(type);
                     tokens.consumeToken();
